@@ -1,0 +1,3 @@
+[submodule "Example Themes"]
+	path = output_env/themes
+	url = https://github.com/ChlorideCull/CSGThemes.git
