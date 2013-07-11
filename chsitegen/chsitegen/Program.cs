@@ -79,7 +79,7 @@ namespace chsitegen
             Console.WriteLine(SiteTheme);
             string TemplateHTML = "";
 
-            foreach (string f in Directory.GetFiles("themes/" + SiteTheme + "/"))
+            foreach (string f in Directory.GetFiles(SiteTheme))
             {
                 if (Path.GetFileName(f) == "index.html")
                 {
@@ -105,7 +105,6 @@ namespace chsitegen
                 {
                     File.Copy(f, "html/" + Path.GetFileName(f), true);
                 }
-                Console.ReadKey();
             }
 
             foreach (KeyValuePair<int, string[]> kvp in pages)
@@ -116,6 +115,8 @@ namespace chsitegen
                 TemporaryHTML = TemporaryHTML.Replace("$PAGE_CONTENT", md.Transform(File.OpenText(kvp.Value[2]).ReadToEnd()));
                 File.WriteAllText("html/" + kvp.Value[1], TemporaryHTML);
             }
+            Console.WriteLine(" OK");
+            Environment.Exit(0);
         }
 
         private static void AddXmlNode(string name, string content, XmlElement parentelem)
