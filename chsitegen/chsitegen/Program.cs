@@ -49,12 +49,19 @@ namespace chsitegen
 
             SortedDictionary<int, string[]> pages = new SortedDictionary<int, string[]>(); //Unconventional use but meh
             Console.Write("Counting pages...");
+            bool first = true;
             foreach (string f in Directory.GetFiles("pages"))
             {
                 string file = Path.GetFileNameWithoutExtension(f);
                 int sortnum = Convert.ToInt32(file.Substring(0, 3));
-                string[] values = new string[] { file.Substring(3), file.Substring(3).ToLowerInvariant().Replace(" ","") + ".html", f };
+                string filename;
+                if (first)
+                    filename = "index.html";
+                else
+                    filename = file.Substring(3).ToLowerInvariant().Replace(" ","") + ".html";
+                string[] values = new string[] { file.Substring(3), filename, f };
                 pages.Add(sortnum, values);
+                first = false;
             }
             Console.WriteLine(" " + pages.Count + " pages found");
             Console.Write("Generating pages...");
@@ -77,6 +84,22 @@ namespace chsitegen
                 if (Path.GetFileName(f) == "index.html")
                 {
                     TemplateHTML = File.OpenText(f).ReadToEnd();
+                    foreach (string lne in TemplateHTML.Split(new string[] { "\n" }, StringSplitOptions.None))
+                    {
+                        if (lne.Contains("$PAGE_URL") && lne.Contains("$PAGE_TITLE"))
+                        {
+                            //Correct line
+                            string output = "";
+                            foreach (KeyValuePair<int, string[]> kvp in pages)
+                            {
+                                output += lne.Replace("$PAGE_URL", kvp.Value[1]).Replace("$PAGE_TITLE", kvp.Value[0]) + "\n";
+                            }
+                            output = output.Substring(0, output.Length - 1);
+                            TemplateHTML = TemplateHTML.Replace(lne, output);
+                            break;
+                        }
+                    }
+                    TemplateHTML = TemplateHTML.Replace("\r", "");
                 }
                 else
                 {
