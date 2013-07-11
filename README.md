@@ -6,7 +6,11 @@ This tool generates a complete website based on a template located in the `templ
 
 - Compile the MarkdownSharp DLL
 - Compile this project using the provided solution file.
+- Run `git submodule update --init`
+- Copy all files and folders from `output_env` into the same folder as the EXE
 
 ##Credits and Licences for used libraries
 
-This project uses [MarkdownSharp](https://code.google.com/p/markdownsharp/) (version 113), StackOverflow's own Markdown implementation. It is released under the MIT Licence which you can view [here](http://opensource.org/licenses/mit-license.php).
+This project uses [MarkdownSharp](https://code.google.com/p/markdownsharp/) (version 113), StackOverflow's own Markdown implementation.
+
+You can read all the licences for libraries used in the `LIBRARYLICENCES` file.
