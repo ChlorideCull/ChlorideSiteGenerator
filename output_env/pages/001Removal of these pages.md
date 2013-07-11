@@ -1,0 +1,1 @@
+To remove these pages all you have to do is to remove the files in `pages` and replace them with your own before generating your site.
